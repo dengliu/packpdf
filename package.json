@@ -1,6 +1,6 @@
 {
   "name": "packpdf",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Local PDF toolkit — Compress, Merge & Convert to PDF",
   "main": "main.js",
   "scripts": {
