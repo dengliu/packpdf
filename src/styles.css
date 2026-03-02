@@ -190,7 +190,6 @@ body {
 .file-list {
   flex: 1;
   min-height: 100px;
-  max-height: 280px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
