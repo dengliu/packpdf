@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self';">
+  <title>PackPDF</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Title bar drag region -->
+  <div class="titlebar">
+    <div class="titlebar-text">PackPDF</div>
+    <div class="titlebar-info" id="gsInfo"></div>
+  </div>
+
+  <div class="app-container">
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="compress">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Compress PDF
+      </button>
+      <button class="tab-btn" data-tab="merge">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M16 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8Z"/>
+          <path d="M15 3v4a2 2 0 0 0 2 2h4"/>
+        </svg>
+        Merge PDF
+      </button>
+    </div>
+
+    <!-- Merge Tab -->
+    <div class="tab-content" id="tab-merge">
+      <div class="drop-zone" id="mergeDropZone">
+        <div class="drop-zone-content">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.5">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          <p class="drop-zone-text">Drop files here or click to select</p>
+          <p class="drop-zone-hint">Supports PDF, JPG, PNG, TIFF, BMP, GIF, DOCX</p>
+          <button class="btn btn-secondary" id="mergeSelectBtn">Select Files</button>
+        </div>
+      </div>
+
+      <div class="file-list-container" id="mergeFileListContainer" style="display:none;">
+        <div class="file-list-header">
+          <h3>Files to Merge <span class="file-count" id="mergeFileCount"></span></h3>
+          <div class="file-list-actions">
+            <button class="btn btn-small btn-secondary" id="mergeAddMoreBtn">+ Add More</button>
+            <button class="btn btn-small btn-danger" id="mergeClearBtn">Clear All</button>
+          </div>
+        </div>
+        <div class="file-list" id="mergeFileList"></div>
+        <p class="drag-hint">↕ Drag to reorder files</p>
+        <button class="btn btn-primary btn-large" id="mergeBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M16 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8Z"/>
+            <path d="M15 3v4a2 2 0 0 0 2 2h4"/>
+          </svg>
+          Merge Files
+        </button>
+      </div>
+    </div>
+
+    <!-- Compress Tab -->
+    <div class="tab-content active" id="tab-compress">
+      <div class="drop-zone" id="compressDropZone">
+        <div class="drop-zone-content">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.5">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          <p class="drop-zone-text">Drop files here or click to select</p>
+          <p class="drop-zone-hint">Supports PDF, JPG, PNG, TIFF, BMP, GIF, DOCX</p>
+          <button class="btn btn-secondary" id="compressSelectBtn">Select Files</button>
+        </div>
+      </div>
+
+      <div class="file-list-container" id="compressFileListContainer" style="display:none;">
+        <div class="file-list-header">
+          <h3>Files to Compress <span class="file-count" id="compressFileCount"></span></h3>
+          <div class="file-list-actions">
+            <button class="btn btn-small btn-secondary" id="compressAddMoreBtn">+ Add More</button>
+            <button class="btn btn-small btn-danger" id="compressClearBtn">Clear All</button>
+          </div>
+        </div>
+        <div class="file-list" id="compressFileList"></div>
+
+        <div class="quality-selector">
+          <label>Compression Level:</label>
+          <div class="quality-options">
+            <button class="quality-btn" data-quality="screen">
+              <span class="quality-name">Maximum</span>
+              <span class="quality-desc">72 DPI — Smallest file</span>
+            </button>
+            <button class="quality-btn active" data-quality="ebook">
+              <span class="quality-name">Balanced</span>
+              <span class="quality-desc">150 DPI — Good quality</span>
+            </button>
+            <button class="quality-btn" data-quality="printer">
+              <span class="quality-name">Minimum</span>
+              <span class="quality-desc">300 DPI — High quality</span>
+            </button>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-large" id="compressBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Compress Files
+        </button>
+      </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar" id="statusBar" style="display:none;">
+      <div class="status-content">
+        <div class="spinner" id="statusSpinner"></div>
+        <span class="status-text" id="statusText"></span>
+      </div>
+      <div class="progress-bar" id="progressBar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <!-- Result Display -->
+    <div class="result-panel" id="resultPanel" style="display:none;">
+      <div class="result-icon">✓</div>
+      <div class="result-info">
+        <p class="result-title" id="resultTitle"></p>
+        <p class="result-details" id="resultDetails"></p>
+      </div>
+      <button class="btn btn-secondary" id="resultOpenBtn">Show in Finder</button>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+{
+  "name": "packpdf",
+  "version": "1.0.0",
+  "description": "Local PDF toolkit — Compress, Merge & Convert to PDF",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "setup": "node scripts/download-deps.js",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "keywords": [
+    "pdf",
+    "merge",
+    "compress",
+    "ghostscript",
+    "electron"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^35.1.5",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.packpdf.app",
+    "productName": "PackPDF",
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64"
+          ]
+        }
+      ],
+      "icon": "build/icon.icns"
+    },
+    "extraResources": [
+      {
+        "from": "bin/${platform}-${arch}",
+        "to": "bin",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "files": [
+      "main.js",
+      "preload.js",
+      "icon.png",
+      "src/**/*",
+      "!bin/**"
+    ],
+    "publish": null
+  },
+  "dependencies": {
+    "mammoth": "^1.11.0"
+  }
+}
